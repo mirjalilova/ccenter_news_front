@@ -44,7 +44,7 @@ export const Modal: React.FC<Props> = ({ isOpen, onClose, onSubmit, data, loadin
         label: { en: '', ru: '', uz: '' },
         text: { en: '', ru: '', uz: '' },
         title: { en: '', ru: '', uz: '' },
-        type: '',
+        type: 'news',
       });
     }
   }, [data, isOpen]);
@@ -106,18 +106,31 @@ export const Modal: React.FC<Props> = ({ isOpen, onClose, onSubmit, data, loadin
             { label: 'Sana (date)', field: 'date' },
             { label: 'Type *', field: 'type' },
             { label: 'File link', field: 'file_link' },
-            { label: 'Href name', field: 'href_name' },
-            { label: 'Image URL', field: 'img_url' },
+            // { label: 'Href name', field: 'href_name' },
+            // { label: 'Image URL', field: 'img_url' },
           ].map(({ label, field }) => (
-            <input
-              key={field}
-              type={field === 'date' ? 'date' : 'text'}
-              required={label.includes('*')}
-              placeholder={label}
-              value={(formData as any)[field]}
-              onChange={(e) => handleChange(field as keyof ModalData, e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
+            field === 'type' ? (
+              <select
+                key={field}
+                required
+                value={(formData as any)[field]}
+                onChange={(e) => handleChange(field as keyof ModalData, e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              >
+                <option value="news">News</option>
+                <option value="promotion">Promotion</option>
+              </select>
+            ) : (
+              <input
+                key={field}
+                type={field === 'date' ? 'date' : 'text'}
+                required={label.includes('*')}
+                placeholder={label}
+                value={(formData as any)[field]}
+                onChange={(e) => handleChange(field as keyof ModalData, e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            )
           ))}
         </div>
 
